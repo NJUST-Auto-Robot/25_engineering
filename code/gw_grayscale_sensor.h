@@ -13,7 +13,6 @@
 
 /* 默认地址 */
 #define GW_GRAY_ADDR_DEF 0x4C
-// #define GW_GRAY_ADDR_DEF 0x9B
 #define GW_GRAY_PING 0xAA
 #define GW_GRAY_PING_OK 0x66
 #define GW_GRAY_PING_RSP GW_GRAY_PING_OK

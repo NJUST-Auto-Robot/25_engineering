@@ -18,7 +18,17 @@ unsigned char IIC_WriteBytes(unsigned char Salve_Adress,unsigned char Reg_Addres
 {
 	return HAL_I2C_Mem_Write(&hi2c3,Salve_Adress,Reg_Address,I2C_MEMADD_SIZE_8BIT,data,len, 1000)==HAL_OK;
 }
-unsigned char Ping(void)
+unsigned char Pingcolor(void)
+{
+	unsigned char dat;
+	IIC_ReadBytes(Color_Adress<<1,PING,&dat,1);
+	if(dat==PING_OK)
+	{
+			return 0;
+	}	
+	else return 1;
+}
+unsigned char Pinggrayscale(void)
 {
 	unsigned char dat;
 	IIC_ReadBytes(GW_GRAY_ADDR_DEF<<1,GW_GRAY_PING,&dat,1);
@@ -27,6 +37,22 @@ unsigned char Ping(void)
 			return 0;
 	}	
 	else return 1;
+}
+unsigned char IIC_Get_Error(void)
+{
+	unsigned char dat;
+	IIC_ReadBytes(Color_Adress<<1,Error,&dat,1);
+	return dat;
+}
+unsigned char IIC_Get_RGB(unsigned char * Result,unsigned char len)
+{
+	if(IIC_ReadBytes(Color_Adress<<1,RGB_Reg,Result,len))return 1;
+	else return 0;
+}
+unsigned char IIC_Get_HSL(unsigned char * Result,unsigned char len)
+{
+	if(IIC_ReadBytes(Color_Adress<<1,HSL_Reg,Result,len))return 1;
+	else return 0;
 }
 unsigned char IIC_Get_Digtal(void)
 {
@@ -55,4 +81,3 @@ unsigned short IIC_Get_Offset(void )
 	IIC_ReadBytes(GW_GRAY_ADDR_DEF<<1,Offset,dat,2);
 	return (unsigned short)dat[0]|(unsigned short)dat[1]<<8;
 }
-
