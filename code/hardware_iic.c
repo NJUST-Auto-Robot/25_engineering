@@ -1,4 +1,6 @@
 #include "hardware_iic.h"
+uint8_t gray_digital[16] = {0};//16个灰度传感器数值，先是正前方的八个从数组0号位开始开始，
+                             //然后是侧面的八个从数组8号开始
 unsigned char IIC_ReadByte(unsigned char Salve_Adress)
 {
 	unsigned char dat;
@@ -80,4 +82,20 @@ unsigned short IIC_Get_Offset(void )
 	unsigned char dat[2]={0};
 	IIC_ReadBytes(GW_GRAY_ADDR_DEF<<1,Offset,dat,2);
 	return (unsigned short)dat[0]|(unsigned short)dat[1]<<8;
+}
+/* 
+ * 灰度传感器16路读取函数
+ * 读取灰度传感器的数字值，存储在全局变量gray_digital中
+ * 前8个灰度传感器从数组0号位开始，后8个从数组8号位开始
+*/
+void Read_All_GRAY_Digital(void)
+{
+	uint8_t dat[2]={0};
+	IIC_ReadBytes((GW_GRAY_ADDR_DEF<<1),     GW_GRAY_DIGITAL_MODE, &dat[0], 1);
+    IIC_ReadBytes((GW_GRAY_ADDR_DEF1<<1), GW_GRAY_DIGITAL_MODE, &dat[1], 1);
+	for(int i=0; i<8; i++) 
+	{
+        gray_digital[i]   = (dat[0] >> i) & 0x01;
+        gray_digital[i+8] = (dat[1] >> i) & 0x01;
+    }
 }
