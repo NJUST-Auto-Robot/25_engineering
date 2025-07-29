@@ -93,6 +93,7 @@ int main(void)
   MX_I2C3_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
 //  HAL_Delay(10); // 等待设备稳定
   /* USER CODE END 2 */
@@ -104,6 +105,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    Read_RGB_HSL();
+    HAL_Delay(10); // 延时100ms
     Read_All_GRAY_Digital();
     HAL_Delay(10); // 延时100ms
   }
