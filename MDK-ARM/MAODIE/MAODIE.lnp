@@ -3,6 +3,7 @@
 "maodie\main.o"
 "maodie\gpio.o"
 "maodie\i2c.o"
+"maodie\tim.o"
 "maodie\usart.o"
 "maodie\stm32f4xx_it.o"
 "maodie\stm32f4xx_hal_msp.o"
@@ -21,6 +22,8 @@
 "maodie\stm32f4xx_hal_cortex.o"
 "maodie\stm32f4xx_hal.o"
 "maodie\stm32f4xx_hal_exti.o"
+"maodie\stm32f4xx_hal_tim.o"
+"maodie\stm32f4xx_hal_tim_ex.o"
 "maodie\stm32f4xx_hal_uart.o"
 "maodie\system_stm32f4xx.o"
 "maodie\behavior_tree.o"
@@ -30,6 +33,7 @@
 "maodie\hardware_iic.o"
 "maodie\m_math.o"
 "maodie\pid.o"
+"maodie\steering gear control.o"
 --strict --scatter "MAODIE\MAODIE.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

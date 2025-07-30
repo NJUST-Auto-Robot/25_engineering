@@ -5,7 +5,8 @@
 #define BLUEFLAG    1
 #define REDFLAG     2
 #define YELLOWFLAG  3
-extern uint8_t gray_digital[16];
+extern uint8_t gray_front[8];
+extern uint8_t gray_right[8];
 extern uint8_t RGBwithHSL[6];
 extern uint8_t color_flag;
 unsigned char Pingcolor(void);

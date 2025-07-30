@@ -19,14 +19,18 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "hardware_iic.h"
+#include "Steering gear control.h"
 #include "stdio.h"
 #include "string.h"
+#include "ZDTstepmotor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,8 +98,16 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_I2C2_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_Delay(10); // 等待设备稳定
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // 启动PWM输出
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 启动PWM输出
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1); // 启动PWM输出
+  Pump_Close(); // 关闭气泵
+  Solenoid_Close(); // 关闭电磁阀
+  // Yuntai_set_Angle(90); // 设置云台舵机初始角度为90度
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,10 +117,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Read_RGB_HSL();
-    HAL_Delay(10); // 延时100ms
-    Read_All_GRAY_Digital();
-    HAL_Delay(10); // 延时100ms
+Read_RGB_HSL();
+HAL_Delay(10); // 延时100ms
+Read_All_GRAY_Digital();
+HAL_Delay(10); // 延时100ms
+
   }
   /* USER CODE END 3 */
 }
