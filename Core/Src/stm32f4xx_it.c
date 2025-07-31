@@ -55,11 +55,34 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN EV */
+int SiganActive;// 舵机是否处于活动状态，1为活动，0为不活动
+int SiganDir; // 舵机方向，1为正转，0为反转
+#define SiganPulse GPIO_PIN_6 
+#define SiganPulse_GPIO_Port GPIOC
+#define SiganDirection GPIO_PIN_7 
+#define SiganDirection_GPIO_Port GPIOC
+#define Sigan_Dir_Plus() HAL_GPIO_WritePin(SiganDirection_GPIO_Port, SiganDirection, GPIO_PIN_SET) // 设置方向为正转
+#define Sigan_Dir_Minus() HAL_GPIO_WritePin(SiganDirection_GPIO_Port, SiganDirection, GPIO_PIN_RESET) // 设置方向为反转
+#define SiganPulse_High() HAL_GPIO_WritePin(SiganPulse_GPIO_Port, SiganPulse, GPIO_PIN_SET) // 设置脉冲高电平
+#define SiganPulse_Low() HAL_GPIO_WritePin(SiganPulse_GPIO_Port, SiganPulse, GPIO_PIN_RESET) // 设置脉冲低电平
+int Sigan_Motor_State = 0;
+int Sigan_Motor_Speed = 100;
+int Sigan_Motor_Temp_Count = 0;
+int delay_no_conflict(int *delay_temp_count, int delay_time)
+{
 
+  (*delay_temp_count)++;
+  if (*delay_temp_count >= delay_time)
+  {
+    *delay_temp_count = 0;
+    return 1;
+  }
+  else
+    return 0;
+}
 /* USER CODE END EV */
-
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
@@ -197,6 +220,44 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles TIM4 global interrupt.
+  */
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+if (SiganActive==1)
+{ if (SiganDir == 1) // 如果舵机方向为正转
+  {
+    Sigan_Dir_Plus(); // 设置方向为正转
+  }
+  else // 如果舵机方向为反转
+  {
+    Sigan_Dir_Minus(); // 设置方向为反转
+  }
+  switch (Sigan_Motor_State)
+  {
+  case 0:
+   { SiganPulse_High(); 
+    Sigan_Motor_State += delay_no_conflict(&Sigan_Motor_Temp_Count, Sigan_Motor_Speed);
+    break;
+   }
+  case 1:
+   { SiganPulse_Low(); 
+    Sigan_Motor_State = 0;
+   }
+  default:
+  break;
+  }
+}
+
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+
+  /* USER CODE END TIM4_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

@@ -33,6 +33,9 @@ maodie/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
   ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
   ..\Core\Inc\gpio.h ..\code\hardware_iic.h ..\code\gw_color_sensor.h \
-  ..\code\gw_grayscale_sensor.h \
+  ..\code\gw_grayscale_sensor.h ..\code\Steering\ gear\ control.h \
   D:\kelifile\core\ARM\ARMCLANG\include\stdio.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\string.h
+  D:\kelifile\core\ARM\ARMCLANG\include\string.h \
+  ..\Movement\ZDTstepmotor.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
+  ..\Movement\motor_def.h

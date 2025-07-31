@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "hardware_iic.h": "c"
+        "hardware_iic.h": "c",
+        "gw_grayscale_sensor.h": "c"
     }
 }
