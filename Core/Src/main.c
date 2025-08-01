@@ -30,12 +30,15 @@
 #include "stdio.h"
 #include "string.h"
 #include "ZDTstepmotor.h"
+#include "Motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 extern  int SiganActive;// 舵机是否处于活动状态，1为活动，0为不活动
 extern  int SiganDir;//舵机方向，1正0负
+StepMotorZDT_t Motor1, Motor2, Motor3, Motor4; // 定义步进电机结构体
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -102,17 +105,27 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM5_Init();
   MX_TIM4_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim4); // 启动定时器4中断
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1); // 启动PWM输出
+  Step_ZDT_Init(&Motor1, 4, &huart1, 0, 0.077f, false); // 初始化电机1
+  Step_ZDT_Init(&Motor2, 1, &huart1, 1, 0.077f, false); // 初始化电机2
+  Step_ZDT_Init(&Motor3, 2, &huart1, 0, 0.077f, false); // 初始化电机3
+  Step_ZDT_Init(&Motor4, 3, &huart1, 1, 0.077f, true); // 初始化电机4
   Pump_Close(); // 关闭气泵
   Solenoid_Close(); // 关闭电磁阀
-  
-
-  // 设置云台舵机初始角度为30度
-  Yuntai_set_Angle(0); 
+  Yuntai_set_Angle(90); 
+  while (Pinggrayscale())
+  {
+    HAL_Delay(1); // 等待灰度传感器就绪
+  }
+  // while(Pingcolor())
+  // {
+  //   HAL_Delay(1);
+  // }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,7 +133,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-  
+Read_All_GRAY_Digital(); // 读取灰度传感器数据
+// LineTracking(); // 执行巡线逻辑
+HAL_Delay(10); // 延时10毫秒，避免过快循环导致CPU占用过高
+    /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }

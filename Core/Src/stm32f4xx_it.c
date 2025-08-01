@@ -22,6 +22,10 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "hardware_iic.h"
+#include "Steering gear control.h"
+#include "ZDTstepmotor.h"
+#include "Motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -83,6 +87,7 @@ int delay_no_conflict(int *delay_temp_count, int delay_time)
     return 0;
 }
 /* USER CODE END EV */
+
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/

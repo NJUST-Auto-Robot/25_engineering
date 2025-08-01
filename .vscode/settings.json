@@ -1,6 +1,23 @@
 {
     "files.associations": {
         "hardware_iic.h": "c",
-        "gw_grayscale_sensor.h": "c"
+        "gw_grayscale_sensor.h": "c",
+        "stm32f4xx_hal.h": "c",
+        "tim.h": "c",
+        "main.h": "c",
+        "steering gear control.h": "c",
+        "typeinfo": "c",
+        "type_traits": "cpp",
+        "limits": "c",
+        "stdio.h": "c",
+        "zdtstepmotor.h": "c",
+        "motor.h": "c",
+        "cmath": "c",
+        "stdint.h": "c",
+        "math.h": "c",
+        "m_math.h": "c",
+        "pid.h": "c",
+        "usart.h": "c",
+        "i2c.h": "c"
     }
 }

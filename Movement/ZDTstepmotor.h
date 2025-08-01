@@ -16,7 +16,7 @@ typedef struct
     bool _have_pub_permission; // 是否有发布权限
     uint8_t _cmd_buffer[20];     // 命令缓冲区
 }StepMotorZDT_t;
-
+extern StepMotorZDT_t Motor1, Motor2, Motor3, Motor4; // 定义步进电机结构体
 void Step_ZDT_Init(StepMotorZDT_t *zdt_mot,  uint32_t id ,UART_HandleTypeDef *_USART,int8_t _dir, float _wheel_diameter, bool _have_pub_permission);
 
 void set_speed_target(StepMotorZDT_t *zdt_motor, float target);

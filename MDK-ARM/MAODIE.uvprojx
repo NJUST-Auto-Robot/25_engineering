@@ -782,6 +782,11 @@
               <FileType>1</FileType>
               <FilePath>..\code\Steering gear control.c</FilePath>
             </File>
+            <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\Motor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

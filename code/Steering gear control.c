@@ -1,5 +1,4 @@
 #include "Steering gear control.h"
-#include "tim.h"
 //以下用来控制气泵
 /*
 气泵开关
@@ -52,4 +51,9 @@ void Yuntai_set_Angle(uint8_t angle)
     // 假设定时器时钟为1MHz，Period=19999，对应20ms
     // 占空比 = pulse_us
     __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1, pulse_us);
+}
+//一下用来进行步进电机的巡线
+void Controler()
+{
+    
 }

@@ -38,4 +38,4 @@ maodie/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   D:\kelifile\core\ARM\ARMCLANG\include\string.h \
   ..\Movement\ZDTstepmotor.h \
   D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
-  ..\Movement\motor_def.h
+  ..\Movement\motor_def.h ..\code\Motor.h ..\code\pid.h

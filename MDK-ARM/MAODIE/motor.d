@@ -1,4 +1,4 @@
-maodie/stm32f4xx_it.o: ..\Core\Src\stm32f4xx_it.c ..\Core\Inc\main.h \
+maodie/motor.o: ..\code\Motor.c ..\code\Motor.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
   ..\Core\Inc\stm32f4xx_hal_conf.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
@@ -31,9 +31,8 @@ maodie/stm32f4xx_it.o: ..\Core\Src\stm32f4xx_it.c ..\Core\Inc\main.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
-  ..\Core\Inc\stm32f4xx_it.h ..\code\hardware_iic.h ..\Core\Inc\i2c.h \
-  ..\code\gw_color_sensor.h ..\code\gw_grayscale_sensor.h \
-  ..\code\Steering\ gear\ control.h ..\Movement\ZDTstepmotor.h \
+  ..\Movement\ZDTstepmotor.h ..\Core\Inc\main.h \
   D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
   ..\Movement\motor_def.h D:\kelifile\core\ARM\ARMCLANG\include\stdio.h \
-  ..\code\Motor.h ..\code\pid.h ..\Core\Inc\usart.h
+  ..\code\hardware_iic.h ..\Core\Inc\i2c.h ..\code\gw_color_sensor.h \
+  ..\code\gw_grayscale_sensor.h ..\code\pid.h ..\Core\Inc\usart.h
