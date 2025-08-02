@@ -131,11 +131,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     Read_All_GRAY_Digital();
-		 set_speed_pos_target(&Motor1, -0.15f,  0.1f);
-  set_speed_pos_target(&Motor2, 0.3f,  0.5f);
-  set_speed_pos_target(&Motor3, -0.15f,  0.1f);
-  set_speed_pos_target(&Motor4, 0.3f,  0.5f);
-HAL_Delay(5000)   ;
+			LineTracking();
+	
 
   }
   /* USER CODE END 3 */

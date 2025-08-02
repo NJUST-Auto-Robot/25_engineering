@@ -59,21 +59,21 @@ int Get_Black_Line_Position()
 void LineTracking()
  {
   int black_line_pos = Get_Black_Line_Position();
-  // if (black_line_pos == -1)
-  // {
-  //   Stop(); // 停止所有电机
-  // }
-  // if (black_line_pos == -2)
-  // {
-  //   Turn_Left(); // 左转
-  // }
-  // if (black_line_pos == -3)
-  // {
-  //   Turn_Right(); // 右转
-  // }
-  float base_speed = 0.2f; // 设定基准速度
+  if (black_line_pos == -1)
+  {
+    Stop(); // 停止所有电机
+  }
+  if (black_line_pos == -2)
+  {
+    Turn_Left(); // 左转
+  }
+  if (black_line_pos == -3)
+  {
+    Turn_Right(); // 右转
+  }
+  float base_speed = 0.1f; // 设定基准速度
   float error = black_line_pos - 3.5f; 
-  float error_weight = 0.1f; 
+  float error_weight = 0.05f; 
   float Correction = error * error_weight; 
   float speed1 = base_speed + Correction;
   float speed2 = base_speed - Correction;
@@ -83,10 +83,10 @@ void LineTracking()
 }
 void Turn_Left()
 {
-  set_speed_pos_target(&Motor1, 0.2f,  0.24f);
-  set_speed_pos_target(&Motor2, 0.2f,  0.72f);
-  set_speed_pos_target(&Motor3, 0.2f,  0.24f);
-  set_speed_pos_target(&Motor4, 0.2f,  0.72f);
+  set_speed_pos_target(&Motor1, -0.08f,  0.25f);
+  set_speed_pos_target(&Motor2, 0.28f,  0.70f);
+  set_speed_pos_target(&Motor3, 0.12f,  0.25f);
+  set_speed_pos_target(&Motor4, 0.22f,  0.55f);
 }
 void Turn_Right()
 {
