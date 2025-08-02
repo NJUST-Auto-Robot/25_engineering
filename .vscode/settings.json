@@ -18,6 +18,12 @@
         "m_math.h": "c",
         "pid.h": "c",
         "usart.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "fsm.h": "c",
+        "stdbool.h": "c",
+        "gw_color_sensor.h": "c",
+        "string.h": "c",
+        "stm32f4xx_it.h": "c",
+        "gpio.h": "c"
     }
 }

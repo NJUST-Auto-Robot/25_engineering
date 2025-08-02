@@ -148,8 +148,7 @@ void Read_All_GRAY_Digital(void)
 	{
 		gray_front[i] = (dat[0] >> i) & 0x01;
 		gray_right[i] = (dat[1] >> i) & 0x01;
-	}
-	HAL_Delay(100);
+	}	
 }
 /*
  * 颜色传感器读取函数

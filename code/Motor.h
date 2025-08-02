@@ -7,17 +7,14 @@
 #include "usart.h"
 #define BLACK 0;
 #define WHITE 1;
-#define LW4  4
-#define LW3  3
-#define LW2  2
-#define LW1  1
-#define RW1  1
-#define RW2  2
-#define RW3  3
-#define RW4  4
 void Motor_Speed_control(float speed1, float speed2, float speed3, float speed4);
 void LineTracking();
-
+float limit_speed(float speed, float max_speed);
+void limit_motors(float m1, float m2, float m3, float m4, float max_speed);
+int Get_Black_Line_Position();
+void Turn_Left();
+void Turn_Right();
+void Stop();
 
 
 

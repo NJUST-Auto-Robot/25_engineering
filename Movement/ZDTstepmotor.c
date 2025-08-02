@@ -148,7 +148,7 @@ void set_speed_pos_target(StepMotorZDT_t *zdt_motor, float target_speed, float t
                           (uint16_t)zdt_motor->_target_rpm, 
                           0, // 加速度设为0直接启动
                           target_pulses, 
-                          true, // 使用绝对位置模式
+                          false, // 使用相对位置模式
                           true); // 不使用同步
     
     HAL_UART_Transmit(zdt_motor->_USART, zdt_motor->_cmd_buffer, len, 1000);

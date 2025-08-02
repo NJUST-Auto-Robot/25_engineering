@@ -115,13 +115,8 @@ int main(void)
   Step_ZDT_Init(&Motor2, 1, &huart1, 1, 0.077f, false); // 初始化电机2
   Step_ZDT_Init(&Motor3, 2, &huart1, 0, 0.077f, false); // 初始化电机3
   Step_ZDT_Init(&Motor4, 3, &huart1, 1, 0.077f, true); // 初始化电机4
-  Pump_Close(); // 关闭气泵
-  Solenoid_Close(); // 关闭电磁阀
-  Yuntai_set_Angle(90); 
-  while (Pinggrayscale())
-  {
-    HAL_Delay(1); // 等待灰度传感器就绪
-  }
+  Yuntai_set_Angle(90);
+ 
   // while(Pingcolor())
   // {
   //   HAL_Delay(1);
@@ -133,10 +128,14 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-Read_All_GRAY_Digital(); // 读取灰度传感器数据
-// LineTracking(); // 执行巡线逻辑
-HAL_Delay(10); // 延时10毫秒，避免过快循环导致CPU占用过高
+
     /* USER CODE BEGIN 3 */
+    Read_All_GRAY_Digital();
+		 set_speed_pos_target(&Motor1, -0.15f,  0.1f);
+  set_speed_pos_target(&Motor2, 0.3f,  0.5f);
+  set_speed_pos_target(&Motor3, -0.15f,  0.1f);
+  set_speed_pos_target(&Motor4, 0.3f,  0.5f);
+HAL_Delay(5000)   ;
 
   }
   /* USER CODE END 3 */
