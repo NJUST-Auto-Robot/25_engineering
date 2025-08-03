@@ -24,6 +24,7 @@
         "gw_color_sensor.h": "c",
         "string.h": "c",
         "stm32f4xx_it.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "stdlib.h": "c"
     }
 }

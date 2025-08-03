@@ -36,4 +36,6 @@ maodie/steering\ gear\ control.o: ..\code\Steering\ gear\ control.c \
   D:\kelifile\core\ARM\ARMCLANG\include\string.h \
   ..\Movement\ZDTstepmotor.h \
   D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
-  ..\Movement\motor_def.h ..\Core\Inc\tim.h
+  ..\Movement\motor_def.h ..\Core\Inc\tim.h ..\Core\Inc\stm32f4xx_it.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdlib.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\math.h

@@ -35,8 +35,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-extern  int SiganActive;// 舵机是否处于活动状态，1为活动，0为不活动
-extern  int SiganDir;//舵机方向，1正0负
+// extern  int SiganActive;// 舵机是否处于活动状态，1为活动，0为不活动
+// extern  int SiganDir;//舵机方向，1正0负
 StepMotorZDT_t Motor1, Motor2, Motor3, Motor4; // 定义步进电机结构体
 
 /* USER CODE END PTD */
@@ -116,6 +116,11 @@ int main(void)
   Step_ZDT_Init(&Motor3, 2, &huart1, 0, 0.077f, false); // 初始化电机3
   Step_ZDT_Init(&Motor4, 3, &huart1, 1, 0.077f, true); // 初始化电机4
   Yuntai_set_Angle(90);
+  Pump_Close();
+  Solenoid_Close();
+  
+
+  /* USER CODE END 2 */
  
   // while(Pingcolor())
   // {
@@ -128,12 +133,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+		
 
     /* USER CODE BEGIN 3 */
-    Read_All_GRAY_Digital();
-			LineTracking();
-	
-
+   
+		
+ 
   }
   /* USER CODE END 3 */
 }

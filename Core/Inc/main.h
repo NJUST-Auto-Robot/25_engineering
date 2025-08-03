@@ -36,7 +36,9 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern  int SiganActive;// 舵机是否处于活动状态，1为活动，0为不活动
+extern  int SiganDir;//舵机方向，1正0负
+extern  int Siganbusy;//步进电机是否忙，1忙0空闲
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

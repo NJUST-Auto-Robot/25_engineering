@@ -1,4 +1,9 @@
 #include "Steering gear control.h"
+#include "stm32f4xx_it.h"
+#include"stdlib.h"
+#include"math.h"
+#include "main.h"
+int pulse_remaining = 0;
 //以下用来控制气泵
 /*
 气泵开关
@@ -52,8 +57,16 @@ void Yuntai_set_Angle(uint8_t angle)
     // 占空比 = pulse_us
     __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1, pulse_us);
 }
-//一下用来进行步进电机的巡线
-void Controler()
+uint32_t calculate_pulses(float height)
 {
-    
+   float pulses_per_mm = (Pulse_per_rev * Microstep) / Sigan_Pitch_mm;
+    return (uint32_t)(fabs(height) * pulses_per_mm);
+}
+void Siganmove(float height_mm)
+{  
+    SiganDir = (height_mm > 0) ? 1 : 0;
+    pulse_remaining = calculate_pulses(height_mm);
+    pulse_remaining = pulse_remaining/8;
+    if (pulse_remaining == 0) return;  
+    SiganActive = 1; 
 }
