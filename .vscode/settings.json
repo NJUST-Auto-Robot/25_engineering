@@ -25,6 +25,8 @@
         "string.h": "c",
         "stm32f4xx_it.h": "c",
         "gpio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "behavior_tree.h": "c",
+        "commander.h": "c"
     }
 }
