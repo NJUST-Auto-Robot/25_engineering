@@ -3,6 +3,7 @@
 #include"stdlib.h"
 #include"math.h"
 #include "main.h"
+#include "hardware_iic.h"
 int pulse_remaining = 0;
 //以下用来控制气泵
 /*
@@ -69,4 +70,13 @@ void Siganmove(float height_mm)
     pulse_remaining = pulse_remaining/8;
     if (pulse_remaining == 0) return;  
     SiganActive = 1; 
+}
+void Sigancatch(void)
+{
+    while(RGBwithHSL[5]!=0XEF)
+    {   Read_RGB_HSL();
+        Siganmove(1);
+    }
+    Siganmove(67);
+
 }

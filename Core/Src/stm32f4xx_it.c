@@ -26,6 +26,7 @@
 #include "Steering gear control.h"
 #include "ZDTstepmotor.h"
 #include "Motor.h"
+#include "Commander.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -268,6 +269,7 @@ if (SiganActive==1)
   default:
   break;
   }
+
 }
 
   /* USER CODE END TIM4_IRQn 0 */

@@ -1,4 +1,4 @@
 maodie/fsm.o: ..\behavior\FSM.c ..\behavior\fsm.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\stdio.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\stdlib.h
+  D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h

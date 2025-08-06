@@ -1,4 +1,5 @@
 #include "Motor.h"
+int black_line_pos;
 const float SENSOR_WEIGHTS[8] = {
     -4.0f, 
     -2.5f,
@@ -29,10 +30,14 @@ void Motor_Speed_control(float s1, float s2, float s3, float s4)
     set_speed_target(&Motor3, s3); // 设置电机3目标速度
     set_speed_target(&Motor4, s4); // 设置电机4目标速度
 }
-int Get_Black_Line_Position()
+float Get_Black_Line_Position()
 {
   float weight_sum = 0.0f;
   int   count = 0;
+   if ((gray_front[0]==1)&&(gray_front[1]==1)&&(gray_front[2]==1)&&(gray_front[3]=1)&&(gray_front[4]==1)&&(gray_front[5]==1)&&(gray_front[6]==1)&&(gray_front[7]==1))
+   {
+    return 3.5;
+   }
   for (int i = 0; i < 8; i++)
   {
     if(gray_front[i] == 0)
@@ -43,35 +48,28 @@ int Get_Black_Line_Position()
   }
   if ((gray_front[0]==0)&&(gray_front[1]==0)&&(gray_front[2]==0)&&(gray_front[3]==0)&&(gray_front[4]==0)&&(gray_front[5]==0)&&(gray_front[6]==0)&&(gray_front[7]==0))
   {
-    return -1; //全黑线
+    return 3.5;
   }
   if ((gray_front[0]==0)&&(gray_front[1]==0)&&(gray_front[2]==0)&&(gray_front[3]==0)&&(gray_front[5]==1)&&(gray_front[6]==1)&&(gray_front[7]==1))
   {
-    return -2;//左转
+    return 3.5;
   }
    if ((gray_front[0]==1)&&(gray_front[1]==1)&&(gray_front[2]==1)&&(gray_front[4]==0)&&(gray_front[5]==0)&&(gray_front[6]==0)&&(gray_front[7]==0))
   {
-    return -3;//右转
+    return 3.5;
   }
   float normalized_pos = (weight_sum / count + 4.0f) * 0.875f;
   return (int)(normalized_pos + 0.5f); 
 }
 void LineTracking()
  {
-  int black_line_pos = Get_Black_Line_Position();
-  if (black_line_pos == -1)
+  float black_line_pos = Get_Black_Line_Position();
+  if (black_line_pos == 3.5)
   {
-    Stop(); // 停止所有电机
+    Motor_Speed_control(0.2f, 0.2f, 0.2f, 0.2f);
   }
-  if (black_line_pos == -2)
-  {
-    Turn_Left(); // 左转
-  }
-  if (black_line_pos == -3)
-  {
-    Turn_Right(); // 右转
-  }
-  float base_speed = 0.1f; // 设定基准速度
+  
+  float base_speed = 0.2f; // 设定基准速度
   float error = black_line_pos - 3.5f; 
   float error_weight = 0.05f; 
   float Correction = error * error_weight; 
@@ -101,4 +99,41 @@ void Stop()
   set_speed_target(&Motor2, 0.0f);
   set_speed_target(&Motor3, 0.0f);
   set_speed_target(&Motor4, 0.0f);
+}
+void Move_Forward_Position(float target_pos)
+{
+  set_speed_pos_target(&Motor1, 0.2f, target_pos);
+  set_speed_pos_target(&Motor2, 0.2f, target_pos);
+  set_speed_pos_target(&Motor3, 0.2f, target_pos);
+  set_speed_pos_target(&Motor4, 0.2f, target_pos);
+}
+void Move_Backward_Position(float target_pos)
+{
+  set_speed_pos_target(&Motor1, -0.2f, target_pos);
+  set_speed_pos_target(&Motor2, -0.2f, target_pos);
+  set_speed_pos_target(&Motor3, -0.2f, target_pos);
+  set_speed_pos_target(&Motor4, -0.2f, target_pos);
+}
+void Move_Right_Position(float target_pos)
+{
+  set_speed_pos_target(&Motor1, 0.2f, target_pos);
+  set_speed_pos_target(&Motor2, -0.2f, target_pos);
+  set_speed_pos_target(&Motor3, -0.2f, target_pos);
+  set_speed_pos_target(&Motor4, 0.2f, target_pos);
+}
+void Move_Left_Position(float target_pos)
+{
+  set_speed_pos_target(&Motor1, -0.2f, target_pos);
+  set_speed_pos_target(&Motor2, 0.2f, target_pos);
+  set_speed_pos_target(&Motor3, 0.2f, target_pos);
+  set_speed_pos_target(&Motor4, -0.2f, target_pos);
+}
+void Motorangle(float angle)
+{
+  float ang=angle*0.2966f;
+  ang=ang/90.0f;
+  set_speed_pos_target(&Motor1, 0.2966f, ang); 
+  set_speed_pos_target(&Motor2, -0.2966f, ang);
+  set_speed_pos_target(&Motor3, 0.2966f, ang); 
+  set_speed_pos_target(&Motor4, -0.2966f, ang);
 }

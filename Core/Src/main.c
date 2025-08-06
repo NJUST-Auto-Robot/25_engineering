@@ -31,6 +31,7 @@
 #include "string.h"
 #include "ZDTstepmotor.h"
 #include "Motor.h"
+#include "Commander.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,6 +109,7 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim4); // 启动定时器4中断
+  HAL_TIM_Base_Start_IT(&htim6); // 启动定时器6中断
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1); // 启动PWM输出
@@ -115,15 +117,10 @@ int main(void)
   Step_ZDT_Init(&Motor2, 1, &huart1, 1, 0.077f, false); // 初始化电机2
   Step_ZDT_Init(&Motor3, 3, &huart1, 0, 0.077f, false); // 初始化电机3
   Step_ZDT_Init(&Motor4, 4, &huart1, 1, 0.077f, true); // 初始化电机4
-  Yuntai_set_Angle(70);
+  motion_StateManager_Init(); // 初始化状态管理器
+  Yuntai_set_Angle(65);
   Pump_Close();
   Solenoid_Close();
-
-set_speed_target(&Motor1, 0.1);
-		set_speed_target(&Motor2, -0.1);
-		set_speed_target(&Motor3, -0.1);
-		set_speed_target(&Motor4, 0.1);
-  
   
 
   /* USER CODE END 2 */
@@ -134,11 +131,9 @@ set_speed_target(&Motor1, 0.1);
   {
     /* USER CODE END WHILE */
 
-
     /* USER CODE BEGIN 3 */
-   
-		
- 
+    Sensor_All_Update();
+    HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }

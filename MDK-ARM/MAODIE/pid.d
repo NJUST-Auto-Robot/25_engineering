@@ -1,3 +1,3 @@
 maodie/pid.o: ..\code\pid.c ..\code\pid.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\stdint.h \
-  D:\kelifile\core\ARM\ARMCLANG\include\math.h
+  D:\keil\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  D:\keil\ARM\ARMCLANG\Bin\..\include\math.h

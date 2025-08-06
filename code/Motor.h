@@ -5,20 +5,20 @@
 #include "hardware_iic.h"
 #include "pid.h"
 #include "usart.h"
-#define BLACK 0;
-#define WHITE 1;
+extern int black_line_pos;
 void Motor_Speed_control(float speed1, float speed2, float speed3, float speed4);
 void LineTracking();
 float limit_speed(float speed, float max_speed);
 void limit_motors(float m1, float m2, float m3, float m4, float max_speed);
-int Get_Black_Line_Position();
+float Get_Black_Line_Position();
 void Turn_Left();
 void Turn_Right();
 void Stop();
-
-
-
-
+void Move_Forward_Position(float target_pos);
+void Move_Backward_Position(float target_pos);
+void Move_Right_Position(float target_pos);
+void Move_Left_Position(float target_pos);
+void Motorangle(float angle);
 
 
 
