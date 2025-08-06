@@ -1,3 +1,5 @@
+#ifndef __HARDWARE_IIC_H
+#define __HARDWARE_IIC_H
 #include "stm32f4xx_hal.h"
 #include "i2c.h"
 #include "gw_color_sensor.h"
@@ -23,3 +25,4 @@ void Read_All_GRAY_Digital(void);
 void Read_RGB_HSL(void);
 void Update_Color_Flag(void);
 void Sensor_All_Update(void);
+#endif

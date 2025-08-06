@@ -61,6 +61,8 @@
 
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim7;
 /* USER CODE BEGIN EV */
 #define SiganPulse GPIO_PIN_6 
 #define SiganPulse_GPIO_Port GPIOC
@@ -77,11 +79,26 @@ int Sigan_Motor_Temp_Count = 0;
 int SiganActive = 0; // 舵机初始化为不活动状态
   int SiganDir = 0; // 
   int Siganbusy = 0; // 步进电机初始化为空闲状态
+int gray_state=0;
+int gray_count=0;
+int gray_delay_time=0;
 int delay_no_conflict(int *delay_temp_count, int delay_time)
 {
 
   (*delay_temp_count)++;
   pulse_remaining--;
+  if (*delay_temp_count >= delay_time)
+  {
+    *delay_temp_count = 0;
+    return 1;
+  }
+  else
+    return 0;
+}
+int delay_no_conflict_state(int *delay_temp_count, int delay_time)
+{
+
+  (*delay_temp_count)++;
   if (*delay_temp_count >= delay_time)
   {
     *delay_temp_count = 0;
@@ -277,6 +294,61 @@ if (SiganActive==1)
   /* USER CODE BEGIN TIM4_IRQn 1 */
 
   /* USER CODE END TIM4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.
+  */
+void TIM6_DAC_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
+
+ switch (gray_state)
+ {
+ case 0:
+ { Read_RGB_HSL();
+ 		// Read_All_GRAY_Digital(); // 读取灰度  
+	 gray_state+=delay_no_conflict_state(&gray_count,1);
+	 break;
+ }
+ case 1:
+ { 
+  Read_All_GRAY_Digital();
+ 		// Read_RGB_HSL();
+	 	 gray_state+=delay_no_conflict_state(&gray_count,1);
+	 break;
+ }
+ case 2:
+ {
+ 	Update_Color_Flag();
+	gray_state=0;
+break;	 
+ }
+   default:break;
+ }
+//		Read_All_GRAY_Digital(); // 读取灰度 
+//		// HAL_Delay(2);
+//		Read_RGB_HSL();
+//		// HAL_Delay(2);
+//		Update_Color_Flag();
+  /* USER CODE END TIM6_DAC_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim6);
+  /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
+
+  /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM7 global interrupt.
+  */
+void TIM7_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM7_IRQn 0 */
+  /* USER CODE END TIM7_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim7);
+  /* USER CODE BEGIN TIM7_IRQn 1 */
+
+  /* USER CODE END TIM7_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

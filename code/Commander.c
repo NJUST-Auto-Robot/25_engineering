@@ -43,6 +43,7 @@ extern bool ConditionA5(void *data);
 int color_read=0;
 int delivery_count=0;
 int yellow_end_flag=0;
+int finish_flag=0;
 
 void motion_StateManager_Init(void)
 {
@@ -88,46 +89,67 @@ void motion_StateManager_Execute()
 
 void Begin_StateFunc(void *data)
 {
+    int cross_ready=0;
     int cross_flag = 0;
     while (cross_flag!=3)
     {
     LineTracking();
-    if(gray_right[4]== 0 && gray_right[5] == 0)
+    if(gray_right[0]==0)
     {
-        if(gray_right[4]!= 0 || gray_right[5] != 0)
-        cross_flag++;
+        cross_ready=1;
     }
+    if (gray_right[3]==0&&cross_ready==1)
+    {
+        cross_flag++;
+        cross_ready=0;
+    }
+    
+    // last_state = current_state;
     }
     Stop();
+    finish_flag=1;
+    HAL_Delay(1500);
 }
 bool ConditionA1(void *data)
 {
-    return gray_right[4]== 0 && gray_right[5] == 0;
+    return finish_flag==1;
 }
 void CarryA_StateFunc(void *data)
 {
+    finish_flag=0;
     Move_Right_Position(0.3f);
+    HAL_Delay(1500);
+    Move_Backward_Position(0.1f);
+    HAL_Delay(1000);
     color_read=color_flag;
     Sigancatch();
+    HAL_Delay(1000);
     Solenoid_Open();
     Pump_Open();
     Siganmove(-100.0f);
+    HAL_Delay(1000);
     Move_Left_Position(0.3f);
+    HAL_Delay(1500);
     Motorangle(180.0f);
+    HAL_Delay(1500);
+    finish_flag=1;
 }
 bool ConditionA2(void *data)
 {
-    return gray_right[4]== 0 && gray_right[5] == 0&&color_read==YELLOWFLAG;
+    return finish_flag==1&&color_read==YELLOWFLAG;
 }
 void Delivery_beginA1_StateFunc(void *data)
 {
-    while (gray_right[4]!= 0 || gray_right[5] != 0)
+    finish_flag=0;
+    while (gray_right[3]!= 0)
     {
         LineTracking();
     }
     Stop();
     Motorangle(-90.0f);
+    HAL_Delay(1000);
     Move_Forward_Position(0.1f);
+    HAL_Delay(1000);
     while (gray_right[4]!= 0 || gray_right[5] != 0)
     {
         LineTracking();

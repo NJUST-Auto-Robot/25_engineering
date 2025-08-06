@@ -183,10 +183,10 @@ void Update_Color_Flag(void)
 void Sensor_All_Update(void)
 {
 		Read_All_GRAY_Digital(); // 读取灰度 
-		HAL_Delay(10);
-		// Read_RGB_HSL();
-		// HAL_Delay(1);
-		// Update_Color_Flag();
+		HAL_Delay(2);
+		Read_RGB_HSL();
+		HAL_Delay(2);
+		Update_Color_Flag();
 }
 // void Sensor_All_Update(void)
 // {

@@ -7,14 +7,14 @@ maodie/steering\ gear\ control.o: ..\code\Steering\ gear\ control.c \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h \
   ..\Drivers\CMSIS\Include\core_cm4.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdint.h \
-  ..\Drivers\CMSIS\Include\cmsis_version.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
-  ..\Drivers\CMSIS\Include\cmsis_armclang.h \
-  ..\Drivers\CMSIS\Include\mpu_armv7.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdint.h \
+  D:\gitgoingchengsai\xiaxin\Drivers\CMSIS\Include\cmsis_version.h \
+  D:\gitgoingchengsai\xiaxin\Drivers\CMSIS\Include\cmsis_compiler.h \
+  D:\gitgoingchengsai\xiaxin\Drivers\CMSIS\Include\cmsis_armclang.h \
+  D:\gitgoingchengsai\xiaxin\Drivers\CMSIS\Include\mpu_armv7.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stddef.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio_ex.h \
@@ -32,12 +32,12 @@ maodie/steering\ gear\ control.o: ..\code\Steering\ gear\ control.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
-  ..\Core\Inc\main.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Core\Inc\main.h D:\kelifile\core\ARM\ARMCLANG\include\stdio.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\string.h \
   ..\Movement\ZDTstepmotor.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h ..\Movement\motor_def.h \
-  ..\Core\Inc\tim.h ..\Core\Inc\stm32f4xx_it.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\math.h ..\code\hardware_iic.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdbool.h \
+  ..\Movement\motor_def.h ..\Core\Inc\tim.h ..\Core\Inc\stm32f4xx_it.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdlib.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\math.h ..\code\hardware_iic.h \
   ..\Core\Inc\i2c.h ..\code\gw_color_sensor.h \
   ..\code\gw_grayscale_sensor.h

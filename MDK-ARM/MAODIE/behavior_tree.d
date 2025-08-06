@@ -1,5 +1,5 @@
 maodie/behavior_tree.o: ..\behavior\behavior_tree.c \
   ..\behavior\behavior_tree.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdint.h
+  D:\kelifile\core\ARM\ARMCLANG\include\stdio.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdlib.h \
+  D:\kelifile\core\ARM\ARMCLANG\include\stdint.h

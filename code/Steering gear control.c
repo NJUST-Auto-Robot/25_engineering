@@ -75,7 +75,7 @@ void Sigancatch(void)
 {
     while(RGBwithHSL[5]!=0XEF)
     {   Read_RGB_HSL();
-        Siganmove(1);
+        Siganmove(2);
     }
     Siganmove(67);
 
