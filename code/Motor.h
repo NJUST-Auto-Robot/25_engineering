@@ -19,6 +19,7 @@ void Move_Backward_Position(float target_pos);
 void Move_Right_Position(float target_pos);
 void Move_Left_Position(float target_pos);
 void Motorangle(float angle);
+void niMotorangle(float angle);
 
 
 

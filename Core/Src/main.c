@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "i2c.h"
 #include "tim.h"
 #include "usart.h"
@@ -32,6 +33,7 @@
 #include "ZDTstepmotor.h"
 #include "Motor.h"
 #include "Commander.h"
+#include "maintask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,13 +62,13 @@ StepMotorZDT_t Motor1, Motor2, Motor3, Motor4; // 定义步进电机结构体
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 /**
@@ -113,17 +115,18 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 启动PWM输出
   HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1); // 启动PWM输出
-  Step_ZDT_Init(&Motor1, 2, &huart1, 0, 0.077f, false); // 初始化电机1
-  Step_ZDT_Init(&Motor2, 1, &huart1, 1, 0.077f, false); // 初始化电机2
-  Step_ZDT_Init(&Motor3, 3, &huart1, 0, 0.077f, false); // 初始化电机3
-  Step_ZDT_Init(&Motor4, 4, &huart1, 1, 0.077f, true); // 初始化电机4
-  motion_StateManager_Init(); // 初始化状态管理器
-  Yuntai_set_Angle(65);
-  Pump_Close();
-  Solenoid_Close();
+  HAL_Delay(3000); // 延时3秒，等待系统稳定
   
-
+  main_task_create();
   /* USER CODE END 2 */
+
+  /* Call init function for freertos objects (in cmsis_os2.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -131,9 +134,9 @@ int main(void)
   {
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
-    motion_StateManager_Execute(); // 执行状态机
-    HAL_Delay(5); // 延时10毫秒 
+
   }
+
   /* USER CODE END 3 */
 }
 

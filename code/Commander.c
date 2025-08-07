@@ -1,5 +1,6 @@
 #include "Commander.h"
-
+#include "FreeRTOS.h"
+#include "task.h"
 FSM *FsmYellow = NULL;
 static FSM_StateNode *Begin = NULL;
 static FSM_StateNode *StageA = NULL;
@@ -44,6 +45,8 @@ int color_read=0;
 int delivery_count=0;
 int yellow_end_flag=0;
 int finish_flag=0;
+int cross_flag=0;
+int cross_ready=0;
 
 void motion_StateManager_Init(void)
 {
@@ -89,12 +92,12 @@ void motion_StateManager_Execute()
 
 void Begin_StateFunc(void *data)
 {
-    int cross_ready=0;
-    int cross_flag = 0;
-    while (cross_flag!=3)
+    cross_ready=0;
+    cross_flag = 0;
+    while (cross_flag!=4)
     {
     LineTracking();
-    if(gray_right[0]==0)
+    if(gray_front[6]==0&& gray_front[7]==0||gray_front[0]==0&&gray_front[1]==0)
     {
         cross_ready=1;
     }
@@ -105,8 +108,9 @@ void Begin_StateFunc(void *data)
     }
     }
     Stop();
+    vTaskDelay(500);
     finish_flag=1;
-    HAL_Delay(500);
+    
 }
 bool ConditionA1(void *data)
 {
@@ -115,21 +119,21 @@ bool ConditionA1(void *data)
 void CarryA_StateFunc(void *data)
 {
     finish_flag=0;
+    Move_Backward_Position(0.05f);
+    vTaskDelay(1500);
     Move_Right_Position(0.3f);
-    HAL_Delay(1000);
-    Move_Backward_Position(0.1f);
-    HAL_Delay(100);
+    vTaskDelay(3000);
     color_read=color_flag;
-    Sigancatch();
-    HAL_Delay(1000);
-    Solenoid_Open();
+    Solenoid_Close();
     Pump_Open();
+    Sigancatch();
+    vTaskDelay(2500);
     Siganmove(-100.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Left_Position(0.3f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Motorangle(180.0f);
-    HAL_Delay(1000);
+    vTaskDelay(3200);
     finish_flag=1;
 }
 bool ConditionA2(void *data)
@@ -144,19 +148,19 @@ void Delivery_beginA1_StateFunc(void *data)
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Forward_Position(0.1f);
-    HAL_Delay(100);
+    vTaskDelay(500);
     while (gray_right[3]!= 0 )
     {
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Move_Right_Position(0.6f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     finish_flag=1;
 }
 void Delivery_endA1_StateFunc(void *data)
@@ -166,28 +170,28 @@ void Delivery_endA1_StateFunc(void *data)
     {
     case 0:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(125);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
         Solenoid_Close();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     
     case 1:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(-5);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
         Solenoid_Close();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     case 2:
         Pump_Close();
@@ -201,31 +205,31 @@ void Back_beginA1_StateFunc(void *data)
     finish_flag=0;
     if(delivery_count==2){
         Motorangle(-90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.6f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
     }
     else{
         Move_Left_Position(0.6f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.1f);
-        HAL_Delay(100);
+        vTaskDelay(500);
         while (gray_right[3]!= 0)
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
         Motorangle(90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
     }
     finish_flag=1;       
     
@@ -237,42 +241,42 @@ void Back_endA1_StateFunc(void *data)
     {
     case 0:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(95);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         delivery_count++;
         break;
     case 1:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(35);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
         delivery_count++;
         break;
@@ -293,8 +297,9 @@ bool ConditionA4(void *data)
 }
 void Delivery_beginA2_StateFunc(void *data)
 {
-    int cross_flag = 0;
-    int cross_ready=0;
+    finish_flag=0;
+    cross_flag = 0;
+    cross_ready=0;
     while (cross_flag!=2)
     {
     LineTracking();
@@ -309,9 +314,9 @@ void Delivery_beginA2_StateFunc(void *data)
     }
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (cross_flag!=4)
     {
     LineTracking();
@@ -326,25 +331,25 @@ void Delivery_beginA2_StateFunc(void *data)
     }
     }
     Stop();
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Motorangle(90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Move_Right_Position(0.3f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     finish_flag=1;
 }
 void Delivery_endA2_StateFunc(void *data)
@@ -354,28 +359,28 @@ void Delivery_endA2_StateFunc(void *data)
     {
     case 0:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(125);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
         Solenoid_Close();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     
     case 1:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(-5);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
         Solenoid_Close();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     case 2:
         Pump_Close();
@@ -387,23 +392,23 @@ void Delivery_endA2_StateFunc(void *data)
 void Back_beginA2_StateFunc(void *data)
 {
     finish_flag=0;
-    int cross_flag = 0;
-    int cross_ready=0;
+    cross_flag = 0;
+    cross_ready=0;
     if(delivery_count==2){
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Forward_Position(0.6f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Right_Position(0.3f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (gray_right[3]!= 0 )
     {
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Move_Right_Position(0.3f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (cross_flag!=3)
     {
     LineTracking();
@@ -418,31 +423,31 @@ void Back_beginA2_StateFunc(void *data)
     }
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
 }
     else{
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Forward_Position(0.6f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     Move_Right_Position(0.3f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (gray_right[3]!= 0 )
     {
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (gray_right[3]!= 0 )
     {
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     Motorangle(90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(1500);
     while (cross_flag!=2)
     {
     LineTracking();
@@ -457,7 +462,7 @@ void Back_beginA2_StateFunc(void *data)
     }
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     finish_flag=1;
 }
 }
@@ -468,44 +473,44 @@ void Back_endA2_StateFunc(void *data)
     {
     case 0:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(95);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         delivery_count++;
         break;
     case 1:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(35);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         delivery_count++;
         break;
     case 2:
@@ -522,12 +527,12 @@ bool ConditionA5(void *data)
 void Delivery_beginA3_StateFunc(void *data)
 {
     finish_flag=0;
-    int cross_ready=0;
-    int cross_flag = 0;
-    while (cross_flag!=3)
+    cross_ready=0;
+    cross_flag = 0;
+    while (cross_flag<=2)
     {
     LineTracking();
-    if(gray_right[0]==0)
+    if((gray_front[6]== 0 && gray_front[7] == 0)||(gray_front[0]== 0 && gray_front[1] == 0))
     {
         cross_ready=1;
     }
@@ -537,31 +542,39 @@ void Delivery_beginA3_StateFunc(void *data)
         cross_ready=0;
     }
     }
-    while(cross_flag!=6)
+    while(cross_flag<=5)
     {
     LineTracking();
-    if(gray_front[6]== 0 && gray_front[7] == 0)
+    if(gray_front[0]== 0 && gray_front[1] == 0)
     {
-        if(gray_front[6]!= 0 || gray_front[7] != 0)
+        Move_Forward_Position(0.1f);
+        vTaskDelay(500);
         cross_flag++;
     }
-    }
+     }
+    // if (gray_front[0]!= 0 && gray_front[1] != 0)
+    // {
+    //     cross_flag++;
+    //     cross_ready=0;
+    // }
     Stop();
-    HAL_Delay(500);
-    Motorangle(-90.0f);
-    HAL_Delay(1000);
-    while (gray_front[6]!= 0 || gray_front[7] != 0)
+    vTaskDelay(1500);
+    Move_Forward_Position(0.05f);
+    vTaskDelay(500);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+    while (gray_front[0]!= 0 || gray_front[1] != 0)
     {
         LineTracking();
     }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(1500);
     Move_Left_Position(0.3f);
-    HAL_Delay(1000);
-    Move_Forward_Position(0.6f);
-    HAL_Delay(1000);
-    Motorangle(-90.0f);
-    HAL_Delay(1000);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.75f);
+    vTaskDelay(4400);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
     finish_flag=1;
 }
 void Delivery_endA3_StateFunc(void *data)
@@ -571,32 +584,32 @@ void Delivery_endA3_StateFunc(void *data)
     {
     case 0:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(125);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
-        Solenoid_Close();
+        Solenoid_Open();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     
     case 1:
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(35);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Pump_Close();
-        Solenoid_Close();
+        Solenoid_Open();
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Backward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         break;
     case 2:
         Pump_Close();
-        Solenoid_Close();
+        Solenoid_Open();
         break;
     }
     finish_flag=1;
@@ -604,23 +617,23 @@ void Delivery_endA3_StateFunc(void *data)
 void Back_beginA3_StateFunc(void *data)
 {
     finish_flag=0;
-    int cross_ready=0;
-    int cross_flag = 0;
+    cross_ready=0;
+    cross_flag = 0;
     if(delivery_count==2){
         Motorangle(-90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.6f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
         Motorangle(90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         while (cross_flag!=6)
         {
             LineTracking();
@@ -635,43 +648,43 @@ void Back_beginA3_StateFunc(void *data)
     }
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
         Motorangle(90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.1f);
-        HAL_Delay(100);
+        vTaskDelay(500);
         while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
         Motorangle(-90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.1f);
-        HAL_Delay(100);
+        vTaskDelay(500);
         while (gray_right[3]!= 0 )
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
     }
     else{
         Motorangle(-90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.6f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         while (gray_right[3]!= 0)
         {
             LineTracking();
         }
         Stop();
-        HAL_Delay(500);
+        vTaskDelay(500);
         Motorangle(90.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         while (cross_flag!=7)
         {
         LineTracking();
@@ -686,7 +699,7 @@ void Back_beginA3_StateFunc(void *data)
     }
         }
     Stop();
-    HAL_Delay(500);
+    vTaskDelay(500);
     }
     finish_flag=1;       
 }
@@ -697,42 +710,42 @@ void Back_endA3_StateFunc(void *data)
     {
     case 0:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(95);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         delivery_count++;
         break;
     case 1:
         Move_Right_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Forward_Position(0.15f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(35);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Sigancatch();
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Solenoid_Open();
         Pump_Open();
         Siganmove(-100.0f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Yuntai_set_Angle(65);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Move_Left_Position(0.3f);
-        HAL_Delay(1000);
+        vTaskDelay(1500);
         Motorangle(180.0f);
         delivery_count++;
         break;

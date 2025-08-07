@@ -1,5 +1,7 @@
 #include "ZDTstepmotor.h"
 #include "math.h"
+#include "FreeRTOS.h"
+#include "task.h"
 void Step_ZDT_Init(StepMotorZDT_t *zdt_mot,  uint32_t id ,UART_HandleTypeDef *_USART,int8_t _dir, float _wheel_diameter, bool _have_pub_permission)
 {
 zdt_mot->motor_controller_t.id=id;
@@ -103,13 +105,13 @@ void set_speed_target(StepMotorZDT_t *zdt_motor, float target)
         len = Step_Vel_Control(zdt_motor->_cmd_buffer, zdt_motor->motor_controller_t.id, dir_trans, (uint16_t)(-zdt_motor->_target_rpm), 0, true);
     }
     HAL_UART_Transmit(zdt_motor->_USART, zdt_motor->_cmd_buffer, len, 1000); // 发送数据到电机
-    HAL_Delay(1);                                                            // 傻逼电机需要延迟避免重包
+    vTaskDelay(2);                                                            // 傻逼电机需要延迟避免重包
     if (zdt_motor->_have_pub_permission)
     {
         // 发布同步信号
         len = Step_Synchronous_motion(zdt_motor->_cmd_buffer, 0);                // 发送数据到电机
         HAL_UART_Transmit(zdt_motor->_USART, zdt_motor->_cmd_buffer, len, 1000); // 发送数据到电机
-        HAL_Delay(1);
+        vTaskDelay(2);
     }
 }
 
@@ -152,14 +154,14 @@ void set_speed_pos_target(StepMotorZDT_t *zdt_motor, float target_speed, float t
                           true); // 不使用同步
     
     HAL_UART_Transmit(zdt_motor->_USART, zdt_motor->_cmd_buffer, len, 1000);
-    HAL_Delay(1);
+    vTaskDelay(1);
     
     // 如果有发布权限，发送同步信号
     if (zdt_motor->_have_pub_permission)
     {
         len = Step_Synchronous_motion(zdt_motor->_cmd_buffer, 0);
         HAL_UART_Transmit(zdt_motor->_USART, zdt_motor->_cmd_buffer, len, 1000);
-        HAL_Delay(1);
+        vTaskDelay(1);
     }
     
     // 更新控制器设置

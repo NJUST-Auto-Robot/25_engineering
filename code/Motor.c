@@ -25,10 +25,10 @@ void limit_motors(float m1, float m2, float m3, float m4, float max_speed)
 }
 void Motor_Speed_control(float s1, float s2, float s3, float s4)
 {
-    set_speed_target(&Motor1, s1); // 设置电机1目标速度
     set_speed_target(&Motor2, s2); // 设置电机2目标速度
     set_speed_target(&Motor3, s3); // 设置电机3目标速度
     set_speed_target(&Motor4, s4); // 设置电机4目标速度
+    set_speed_target(&Motor1, s1); // 设置电机1目标速度
 }
 float Get_Black_Line_Position()
 {
@@ -81,59 +81,69 @@ void LineTracking()
 }
 void Turn_Left()
 {
-  set_speed_pos_target(&Motor1, -0.08f,  0.25f);
+  
   set_speed_pos_target(&Motor2, 0.28f,  0.70f);
   set_speed_pos_target(&Motor3, 0.12f,  0.25f);
   set_speed_pos_target(&Motor4, 0.22f,  0.55f);
+   set_speed_pos_target(&Motor1, -0.08f,  0.25f);
 }
 void Turn_Right()
 {
-  set_speed_pos_target(&Motor1, 0.28f,  0.70f);
   set_speed_pos_target(&Motor2, -0.08f,  0.25f);
   set_speed_pos_target(&Motor3, 0.22f,  0.55f);
   set_speed_pos_target(&Motor4, 0.12f,  0.25f);
+  set_speed_pos_target(&Motor1, 0.28f,  0.70f);
 }
 void Stop()
 {
-  set_speed_target(&Motor1, 0.0f);
   set_speed_target(&Motor2, 0.0f);
   set_speed_target(&Motor3, 0.0f);
   set_speed_target(&Motor4, 0.0f);
+  set_speed_target(&Motor1, 0.0f);
 }
 void Move_Forward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor1, 0.2f, target_pos);
   set_speed_pos_target(&Motor2, 0.2f, target_pos);
   set_speed_pos_target(&Motor3, 0.2f, target_pos);
   set_speed_pos_target(&Motor4, 0.2f, target_pos);
+  set_speed_pos_target(&Motor1, 0.2f, target_pos);
 }
 void Move_Backward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor1, -0.2f, target_pos);
   set_speed_pos_target(&Motor2, -0.2f, target_pos);
   set_speed_pos_target(&Motor3, -0.2f, target_pos);
   set_speed_pos_target(&Motor4, -0.2f, target_pos);
+  set_speed_pos_target(&Motor1, -0.2f, target_pos);
 }
 void Move_Right_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor1, 0.2f, target_pos);
   set_speed_pos_target(&Motor2, -0.2f, target_pos);
   set_speed_pos_target(&Motor3, -0.2f, target_pos);
   set_speed_pos_target(&Motor4, 0.2f, target_pos);
+  set_speed_pos_target(&Motor1, 0.2f, target_pos);
 }
 void Move_Left_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor1, -0.2f, target_pos);
   set_speed_pos_target(&Motor2, 0.2f, target_pos);
   set_speed_pos_target(&Motor3, 0.2f, target_pos);
   set_speed_pos_target(&Motor4, -0.2f, target_pos);
+  set_speed_pos_target(&Motor1, -0.2f, target_pos);
 }
 void Motorangle(float angle)
 {
   float ang=angle*0.2966f;
   ang=ang/90.0f;
-  set_speed_pos_target(&Motor1, 0.2966f, ang); 
   set_speed_pos_target(&Motor2, -0.2966f, ang);
   set_speed_pos_target(&Motor3, 0.2966f, ang); 
   set_speed_pos_target(&Motor4, -0.2966f, ang);
+  set_speed_pos_target(&Motor1, 0.2966f, ang); 
+}
+void niMotorangle(float angle)
+{
+  float ang=angle*0.2966f;
+  ang=ang/90.0f;
+  set_speed_pos_target(&Motor2, 0.2966f, ang);
+  set_speed_pos_target(&Motor3, -0.2966f, ang); 
+  set_speed_pos_target(&Motor4, 0.2966f, ang);
+  set_speed_pos_target(&Motor1, -0.2966f, ang); 
 }

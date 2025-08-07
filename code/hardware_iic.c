@@ -1,5 +1,6 @@
 #include "hardware_iic.h"
-
+#include "FreeRTOS.h"
+#include "task.h"
 uint8_t gray_front[8] = {0}; // 16个灰度传感器数值，先是正前方的八个从数组0号位开始开始，
 uint8_t gray_right[8] = {0}; // 然后是右侧的八个
 							 // 然后是侧面的八个从数组8号开始
@@ -167,15 +168,16 @@ void Read_RGB_HSL(void)
  */
 void Update_Color_Flag(void)
 {
-	uint8_t H = RGBwithHSL[3];
-	if (H >= 195 && H <= 255)
+	 if(RGBwithHSL[3] >= 195 && RGBwithHSL[3] <= 255)
 		color_flag = BLUEFLAG;
-	else if (H >= 0 && H <= 25)
+	 if ((RGBwithHSL[3] >= 0 )&& (RGBwithHSL[3] <= 25))
 		color_flag = REDFLAG;
-	else if (H >= 45 && H <= 75)
+	 if((RGBwithHSL[3] >= 220)&&(RGBwithHSL[3]<=255))
+	    color_flag = REDFLAG;
+	 if (RGBwithHSL[3] >= 45 && RGBwithHSL[3] <= 75)
 		color_flag = YELLOWFLAG;
-	else
-		color_flag = 0; // 未知
+	// else
+	// 	color_flag = 0; // 未知
 }
 /*
 集成所有识别
@@ -183,9 +185,9 @@ void Update_Color_Flag(void)
 void Sensor_All_Update(void)
 {
 		Read_All_GRAY_Digital(); // 读取灰度 
-		HAL_Delay(2);
+		vTaskDelay(2);
 		Read_RGB_HSL();
-		HAL_Delay(2);
+		vTaskDelay(2);
 		Update_Color_Flag();
 }
 // void Sensor_All_Update(void)
@@ -202,7 +204,7 @@ void Sensor_All_Update(void)
 // 		Update_Color_Flag();
 // 	}
 // 	flag = (flag + 1) % 2;
-// 	// HAL_Delay(1);
+// 	// vTaskDelay(1);
 // }
 /********************************************************************************************************************************* */
 /********************************************************************************************************************************* */

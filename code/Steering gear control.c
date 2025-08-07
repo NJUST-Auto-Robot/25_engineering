@@ -74,7 +74,8 @@ void Siganmove(float height_mm)
 void Sigancatch(void)
 {
     while(RGBwithHSL[5]!=0XEF)
-    {   Read_RGB_HSL();
+    {  
+        Read_RGB_HSL();
         Siganmove(2);
     }
     Siganmove(67);

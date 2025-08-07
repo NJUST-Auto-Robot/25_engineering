@@ -27,6 +27,11 @@
         "gpio.h": "c",
         "stdlib.h": "c",
         "behavior_tree.h": "c",
-        "commander.h": "c"
+        "commander.h": "c",
+        "motor_def.h": "c",
+        "cmsis_os.h": "c",
+        "maintask.h": "c",
+        "freertos.h": "c",
+        "task.h": "c"
     }
 }
