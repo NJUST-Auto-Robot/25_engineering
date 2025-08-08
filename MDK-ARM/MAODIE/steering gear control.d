@@ -40,4 +40,13 @@ maodie/steering\ gear\ control.o: ..\code\Steering\ gear\ control.c \
   D:\kelifile\core\ARM\ARMCLANG\include\stdlib.h \
   D:\kelifile\core\ARM\ARMCLANG\include\math.h ..\code\hardware_iic.h \
   ..\Core\Inc\i2c.h ..\code\gw_color_sensor.h \
-  ..\code\gw_grayscale_sensor.h
+  ..\code\gw_grayscale_sensor.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
+  ..\Core\Inc\FreeRTOSConfig.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h

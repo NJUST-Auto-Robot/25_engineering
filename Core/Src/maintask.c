@@ -29,26 +29,16 @@ void  main_task_create(void)
   Solenoid_Close();
   vTaskDelay(1000); // 等待1秒钟，确保初始化完成
 
-  BaseType_t ok2 = xTaskCreate(motion_process_task, "MotionProcess", 800, NULL, 3  , &motion_process_task_handle);
-  BaseType_t ok3 = xTaskCreate(sensor_process_task, "SensorProcess", 200, NULL, 2, &sensor_process_task_handle);
-	    if (ok2 != pdPASS || ok3 != pdPASS )
-    {
-        // 任务创建失败，进入死循环
-        while (1)
-        {
-            // uart_printf("create task failed\n");
-        }
-    }
+  BaseType_t ok2 = xTaskCreate(motion_process_task, "MotionProcess", 2000, NULL, 3  , &motion_process_task_handle);
+  BaseType_t ok3 = xTaskCreate(sensor_process_task, "SensorProcess", 600, NULL, 2, &sensor_process_task_handle);
+
 }
 void motion_process_task(void *pvParameters)
 {
   while(1)
 	{
 	  motion_StateManager_Execute(); // 执行状态机
-    uint8_t test_data[10]={0}; // 测试数据
-    test_data[0] = cross_flag;
-    HAL_UART_Transmit_DMA(&huart2, (uint8_t *)test_data, 16); // 发送测试数据
-    vTaskDelay(10); // 延时10毫秒
+    vTaskDelay(50); // 延时50毫秒
 	}
 
 
@@ -60,8 +50,10 @@ void sensor_process_task(void *pvParameters)
     // 传感器处理逻辑
     // 例如读取传感器数据并更新状态
     Read_RGB_HSL(); // 读取RGB和HSL数据
+    vTaskDelay(1); // 延时10毫秒
     Update_Color_Flag(); // 更新颜色标志
+    vTaskDelay(1);
     Read_All_GRAY_Digital(); // 读取灰度数据
-    vTaskDelay(10); // 延时10毫秒
+    vTaskDelay(1); // 延时10毫秒
   }
 }

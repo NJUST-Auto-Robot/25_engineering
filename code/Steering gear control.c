@@ -4,6 +4,8 @@
 #include"math.h"
 #include "main.h"
 #include "hardware_iic.h"
+#include "FreeRTOS.h"
+#include "task.h"
 int pulse_remaining = 0;
 //以下用来控制气泵
 /*
@@ -72,12 +74,36 @@ void Siganmove(float height_mm)
     SiganActive = 1; 
 }
 void Sigancatch(void)
+{ if (color_flag == REDFLAG)
 {
     while(RGBwithHSL[5]!=0XEF)
     {  
         Read_RGB_HSL();
+        vTaskDelay(1);
         Siganmove(2);
     }
     Siganmove(67);
+}
+if (color_flag == YELLOWFLAG)
+{
+    while(RGBwithHSL[5]!=0XEF)
+    {  
+        Read_RGB_HSL();
+        vTaskDelay(1);
+        Siganmove(2);
+    }
+    Siganmove(50);
+}
+if (color_flag == BLUEFLAG)
+{
+    while(RGBwithHSL[5]!=0XEF)
+    {  
+        Read_RGB_HSL();
+        vTaskDelay(1);
+        Siganmove(2);
+    }
+    Siganmove(50);
+}
+
 
 }
