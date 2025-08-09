@@ -66,10 +66,10 @@ void LineTracking()
   float black_line_pos = Get_Black_Line_Position();
   if (black_line_pos == 3.5)
   {
-    Motor_Speed_control(0.2f, 0.2f, 0.2f, 0.2f);
+    Motor_Speed_control(0.3f, 0.3f, 0.3f, 0.3f);
   }
   
-  float base_speed = 0.2f; // 设定基准速度
+  float base_speed = 0.3f; // 设定基准速度
   float error = black_line_pos - 3.5f; 
   float error_weight = 0.05f; 
   float Correction = error * error_weight; 
@@ -103,31 +103,31 @@ void Stop()
 }
 void Move_Forward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, 0.2f, target_pos);
-  set_speed_pos_target(&Motor3, 0.2f, target_pos);
-  set_speed_pos_target(&Motor4, 0.2f, target_pos);
-  set_speed_pos_target(&Motor1, 0.2f, target_pos);
+  set_speed_pos_target(&Motor2, 0.3f, target_pos);
+  set_speed_pos_target(&Motor3, 0.3f, target_pos);
+  set_speed_pos_target(&Motor4, 0.3f, target_pos);
+  set_speed_pos_target(&Motor1, 0.3f, target_pos);
 }
 void Move_Backward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, -0.2f, target_pos);
-  set_speed_pos_target(&Motor3, -0.2f, target_pos);
-  set_speed_pos_target(&Motor4, -0.2f, target_pos);
-  set_speed_pos_target(&Motor1, -0.2f, target_pos);
+  set_speed_pos_target(&Motor2, -0.3f, target_pos);
+  set_speed_pos_target(&Motor3, -0.3f, target_pos);
+  set_speed_pos_target(&Motor4, -0.3f, target_pos);
+  set_speed_pos_target(&Motor1, -0.3f, target_pos);
 }
 void Move_Right_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, -0.2f, target_pos);
-  set_speed_pos_target(&Motor3, -0.2f, target_pos);
-  set_speed_pos_target(&Motor4, 0.2f, target_pos);
-  set_speed_pos_target(&Motor1, 0.2f, target_pos);
+  set_speed_pos_target(&Motor2, -0.3f, target_pos);
+  set_speed_pos_target(&Motor3, -0.3f, target_pos);
+  set_speed_pos_target(&Motor4, 0.3f, target_pos);
+  set_speed_pos_target(&Motor1, 0.3f, target_pos);
 }
 void Move_Left_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, 0.2f, target_pos);
-  set_speed_pos_target(&Motor3, 0.2f, target_pos);
-  set_speed_pos_target(&Motor4, -0.2f, target_pos);
-  set_speed_pos_target(&Motor1, -0.2f, target_pos);
+  set_speed_pos_target(&Motor2, 0.3f, target_pos);
+  set_speed_pos_target(&Motor3, 0.3f, target_pos);
+  set_speed_pos_target(&Motor4, -0.3f, target_pos);
+  set_speed_pos_target(&Motor1, -0.3f, target_pos);
 }
 void Motorangle(float angle)
 {

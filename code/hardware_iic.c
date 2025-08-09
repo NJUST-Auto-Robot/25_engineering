@@ -170,11 +170,11 @@ void Update_Color_Flag(void)
 {
 	 if(RGBwithHSL[3] >= 100 && RGBwithHSL[3] <= 220)
 		color_flag = BLUEFLAG;
-	 if ((RGBwithHSL[3] >= 0 )&& (RGBwithHSL[3] <= 10))
+	 if ((RGBwithHSL[3] >= 0 )&& (RGBwithHSL[3] <= 5))
 		color_flag = REDFLAG;
 	 if((RGBwithHSL[3] >= 220)&&(RGBwithHSL[3]<=255))
 	    color_flag = REDFLAG;
-	 if (RGBwithHSL[3] > 10 && RGBwithHSL[3] < 100)
+	 if (RGBwithHSL[3] > 5 && RGBwithHSL[3] < 100)
 		color_flag = YELLOWFLAG;
 	// else
 	// 	color_flag = 0; // 未知
