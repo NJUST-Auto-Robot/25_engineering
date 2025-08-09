@@ -81,6 +81,7 @@ void Sigancatch(void)
         Read_RGB_HSL();
         vTaskDelay(1);
         Siganmove(2);
+        vTaskDelay(1);
     }
     Siganmove(20);
 }
@@ -91,6 +92,7 @@ if (color_flag == YELLOWFLAG)
         Read_RGB_HSL();
         vTaskDelay(1);
         Siganmove(2);
+        vTaskDelay(1);
     }
     Siganmove(20);
 }
@@ -101,6 +103,7 @@ if (color_flag == BLUEFLAG)
         Read_RGB_HSL();
         vTaskDelay(1);
         Siganmove(2);
+        vTaskDelay(1);
     }
     Siganmove(20);
 }

@@ -32,6 +32,19 @@ static FSM_StateNode *Delivery_beginB3 = NULL;
 static FSM_StateNode *Delivery_endB3 = NULL;
 static FSM_StateNode *Back_beginB3 = NULL;
 static FSM_StateNode *Back_endB3 = NULL;
+static FSM_StateNode *CarryC = NULL;
+static FSM_StateNode *Delivery_beginC1 = NULL;
+static FSM_StateNode *Delivery_endC1 = NULL;
+static FSM_StateNode *Back_beginC1 = NULL;
+static FSM_StateNode *Back_endC1 = NULL;
+static FSM_StateNode *Delivery_beginC2 = NULL;
+static FSM_StateNode *Delivery_endC2 = NULL;
+static FSM_StateNode *Back_beginC2 = NULL;
+static FSM_StateNode *Back_endC2 = NULL;
+static FSM_StateNode *Delivery_beginC3 = NULL;
+static FSM_StateNode *Delivery_endC3 = NULL;
+static FSM_StateNode *Back_beginC3 = NULL;
+static FSM_StateNode *Back_endC3 = NULL;
 
 
 
@@ -65,6 +78,19 @@ extern void Delivery_endB3_StateFunc(void *data);
 extern void Back_beginB3_StateFunc(void *data);
 extern void Back_endB3_StateFunc(void *data);
 extern void Stop_mode_StateFunc(void *data);
+extern void CarryC_StateFunc(void *data);
+extern void Delivery_beginC1_StateFunc(void *data);
+extern void Delivery_endC1_StateFunc(void *data);
+extern void Back_beginC1_StateFunc(void *data);
+extern void Back_endC1_StateFunc(void *data);
+extern void Delivery_beginC2_StateFunc(void *data);
+extern void Delivery_endC2_StateFunc(void *data);
+extern void Back_beginC2_StateFunc(void *data);
+extern void Back_endC2_StateFunc(void *data);
+extern void Delivery_beginC3_StateFunc(void *data);
+extern void Delivery_endC3_StateFunc(void *data);
+extern void Back_beginC3_StateFunc(void *data);
+extern void Back_endC3_StateFunc(void *data);
 
 extern bool ConditionA1(void *data);
 extern bool ConditionA2(void *data);
@@ -74,6 +100,8 @@ extern bool ConditionA5(void *data);
 extern bool ConditionA6(void *data);
 extern bool ConditionB3(void *data);
 extern bool ConditionB6(void *data);
+extern bool ConditionC3(void *data);
+extern bool ConditionC6(void *data);
 
 int color_read=0;
 int delivery_count=0;
@@ -82,6 +110,7 @@ int finish_flag=0;
 int cross_flag=0;
 int cross_ready=0;
 int blue_end_flag=0;
+int red_end_flag=0;
 
 void motion_StateManager_Init(void)
 {
@@ -113,6 +142,19 @@ void motion_StateManager_Init(void)
     Delivery_endB3 = fsm_Create_And_Add_State(FsmYellow, 25, "Delivery_endB3", Delivery_endB3_StateFunc);
     Back_beginB3 = fsm_Create_And_Add_State(FsmYellow, 26, "Back_beginB3", Back_beginB3_StateFunc);
     Back_endB3 = fsm_Create_And_Add_State(FsmYellow, 27, "Back_endB3", Back_endB3_StateFunc);
+    CarryC = fsm_Create_And_Add_State(FsmYellow, 28, "CarryC", CarryC_StateFunc);
+    Delivery_beginC1 = fsm_Create_And_Add_State(FsmYellow, 29, "Delivery_beginC1", Delivery_beginC1_StateFunc);
+    Delivery_endC1 = fsm_Create_And_Add_State(FsmYellow, 30, "Delivery_endC1", Delivery_endC1_StateFunc);
+    Back_beginC1 = fsm_Create_And_Add_State(FsmYellow, 31, "Back_beginC1", Back_beginC1_StateFunc);
+    Back_endC1 = fsm_Create_And_Add_State(FsmYellow, 32, "Back_endC1", Back_endC1_StateFunc);
+    Delivery_beginC2 = fsm_Create_And_Add_State(FsmYellow, 33, "Delivery_beginC2", Delivery_beginC2_StateFunc);
+    Delivery_endC2 = fsm_Create_And_Add_State(FsmYellow, 34, "Delivery_endC2", Delivery_endC2_StateFunc);
+    Back_beginC2 = fsm_Create_And_Add_State(FsmYellow, 35, "Back_beginC2", Back_beginC2_StateFunc);
+    Back_endC2 = fsm_Create_And_Add_State(FsmYellow, 36, "Back_endC2", Back_endC2_StateFunc);
+    Delivery_beginC3 = fsm_Create_And_Add_State(FsmYellow, 37, "Delivery_beginC3", Delivery_beginC3_StateFunc);
+    Delivery_endC3 = fsm_Create_And_Add_State(FsmYellow, 38, "Delivery_endC3", Delivery_endC3_StateFunc);
+    Back_beginC3 = fsm_Create_And_Add_State(FsmYellow, 39, "Back_beginC3", Back_beginC3_StateFunc);
+    Back_endC3 = fsm_Create_And_Add_State(FsmYellow, 40, "Back_endC3", Back_endC3_StateFunc);
     Stop_mode = fsm_Create_And_Add_State(FsmYellow, 14, "Stop_mode", Stop_mode_StateFunc);
 
     fsm_Add_Transition(Begin, CarryA, ConditionA1);
@@ -153,9 +195,26 @@ void motion_StateManager_Init(void)
     fsm_Add_Transition(Back_beginB1, Stop_mode, ConditionB6);
     fsm_Add_Transition(Back_beginB2, Stop_mode, ConditionB6);
     fsm_Add_Transition(Back_beginB3, Stop_mode, ConditionB6);
-
-
-    fsm_Set_Initial_State(FsmYellow, CarryB); // 设置初始状态
+    fsm_Add_Transition(Stop_mode, CarryC, ConditionC3);
+    fsm_Add_Transition(CarryC, Delivery_beginC1, ConditionA2);
+    fsm_Add_Transition(Delivery_beginC1, Delivery_endC1, ConditionA1);
+    fsm_Add_Transition(Delivery_endC1, Back_beginC1, ConditionA1);
+    fsm_Add_Transition(Back_beginC1, Back_endC1, ConditionC3);
+    fsm_Add_Transition(Back_endC1, Delivery_beginC1, ConditionC3);
+    fsm_Add_Transition(CarryC, Delivery_beginC2, ConditionA4);
+    fsm_Add_Transition(Delivery_beginC2, Delivery_endC2, ConditionA1);
+    fsm_Add_Transition(Delivery_endC2, Back_beginC2, ConditionA1);
+    fsm_Add_Transition(Back_beginC2, Back_endC2, ConditionC3);
+    fsm_Add_Transition(Back_endC2, Delivery_beginC2, ConditionC3);
+    fsm_Add_Transition(CarryC, Delivery_beginC3, ConditionA5);
+    fsm_Add_Transition(Delivery_beginC3, Delivery_endC3, ConditionA1);
+    fsm_Add_Transition(Delivery_endC3, Back_beginC3, ConditionA1);
+    fsm_Add_Transition(Back_beginC3, Back_endC3, ConditionC3);
+    fsm_Add_Transition(Back_endC3, Delivery_beginC3, ConditionC3);
+    fsm_Add_Transition(Back_endC1, Stop_mode, ConditionC6);
+    fsm_Add_Transition(Back_endC2, Stop_mode, ConditionC6);
+    fsm_Add_Transition(Back_endC3, Stop_mode, ConditionC6);
+    fsm_Set_Initial_State(FsmYellow, Begin); // 设置初始状态
 }
 
 void motion_StateManager_Execute()
@@ -815,6 +874,7 @@ void Stop_mode_StateFunc(void *data)
 void CarryB_StateFunc(void *data)
 {
     finish_flag=0;
+    delivery_count=0;
     Move_Forward_Position(0.25f);
     vTaskDelay(2200);
     color_read=color_flag;
@@ -1089,6 +1149,7 @@ void Back_beginB2_StateFunc(void *data)
     niMotorangle(90.0f);
     vTaskDelay(2200);
     blue_end_flag=1;
+    finish_flag=1;
 
 }
     else{
@@ -1398,6 +1459,590 @@ void Back_endB3_StateFunc(void *data){
     }
     finish_flag=1;
 }
+bool ConditionC3(void *data){
+    return finish_flag==1 && red_end_flag==0;
+}
+bool ConditionC6(void *data){
+    return red_end_flag==1;
+}
+void CarryC_StateFunc(void *data){
+    finish_flag=0;
+    delivery_count=0;
+    Move_Forward_Position(0.25f);
+    vTaskDelay(2200);
+    Move_Left_Position(0.3f);
+    vTaskDelay(2200);
+    color_read=color_flag;
+    Solenoid_Close();
+    Pump_Open();
+    vTaskDelay(1500);
+    Sigancatch();
+    vTaskDelay(2500);
+    Siganmove(-100.0f);
+    vTaskDelay(1500);
+    Move_Right_Position(0.3f);
+    vTaskDelay(2200);
+    Move_Backward_Position(0.25f);
+    vTaskDelay(2200);
+    Motorangle(180.0f);
+    vTaskDelay(2200);
+    finish_flag=1;
+}
+void Delivery_beginC1_StateFunc(void *data){
 
+    finish_flag=0;
+    cross_ready=0;
+    cross_flag = 0;
+    Motorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3]!= 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3]!= 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+    finish_flag=1;
+}
+void Delivery_endC1_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(125);
+        vTaskDelay(1500);
+        Pump_Close();
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
     
+    case 1:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(35);
+        vTaskDelay(1500);
+        Pump_Close();
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        break;
+    }
+    finish_flag=1;
+}
+void Back_beginC1_StateFunc(void *data){
+    if(delivery_count==2){
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.6f);
+        vTaskDelay(3000);
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.1f);
+        vTaskDelay(500);
+        while (gray_right[3]!= 0)
+        {
+            LineTracking();
+            vTaskDelay(10);
+        }
+        Stop();
+        vTaskDelay(500);
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.8f);
+        vTaskDelay(3000);
+        blue_end_flag=1;
+    }
+    else{
+    finish_flag=0;
+    cross_ready=0;
+    cross_flag = 0;
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.6f);
+    vTaskDelay(3000);
+    Motorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while(gray_right[3]!= 0){
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+}
+    finish_flag=1;
+}
+void Back_endC1_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Left_Position(0.35f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(85);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.35f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 1:
+        Move_Left_Position(0.25f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(45);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.25f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        break;
+    }
+    finish_flag=1;
+}
+void Delivery_beginC2_StateFunc(void *data){
+    finish_flag=0;
+    cross_ready=0;
+    cross_flag = 0;
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3]!= 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    Move_Right_Position(0.3f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.3f);
+    vTaskDelay(2200);
+    Motorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    finish_flag=1;
+}
+void Delivery_endC2_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(125);
+        vTaskDelay(1500);
+        Pump_Close();
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
+    
+    case 1:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(35);
+        vTaskDelay(1500);
+        Pump_Close();    
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        break;
+    }
+    finish_flag=1;
+}
+void Back_beginC2_StateFunc(void *data){
+    finish_flag=0;
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        while (gray_front[0] != 0)
+        {
+            LineTracking();
+            vTaskDelay(10);
+        }
+        Stop();
+        vTaskDelay(500);
+        Move_Left_Position(0.3f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.37f);
+        vTaskDelay(2200);
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.1f);
+        vTaskDelay(500);
+        while (gray_right[3] != 0)
+        {
+            LineTracking();
+            vTaskDelay(10);
+        }
+        Stop();
+        vTaskDelay(500);
+        if(delivery_count==2){
+            niMotorangle(90.0f);
+            vTaskDelay(2200);
+            Move_Forward_Position(0.1f);
+            vTaskDelay(500);
+            while (gray_right[3] != 0)
+            {
+                LineTracking();
+                vTaskDelay(10);
+            }
+            Move_Forward_Position(0.1f);
+            vTaskDelay(500);
+            while (gray_right[3] != 0)
+            {
+                LineTracking();
+                vTaskDelay(10);
+            }
+            Stop();
+            vTaskDelay(500);
+            niMotorangle(90.0f);
+            vTaskDelay(2200);
+            Move_Forward_Position(0.8f);
+            vTaskDelay(3000);
+            red_end_flag=1;
+        }
+    finish_flag=1;
+}
+void Back_endC2_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Left_Position(0.35f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(85);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.35f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 1:
+        Move_Left_Position(0.25f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(45);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.25f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        break;
+    }
+    finish_flag=1;
+}
+void Delivery_beginC3_StateFunc(void *data){
+    
+    finish_flag=0;
+    cross_ready=0;
+    cross_flag = 0;
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    Move_Right_Position(0.6f);
+    vTaskDelay(3000);
+    while (gray_front[0] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    Stop();
+    vTaskDelay(500);
+    finish_flag=1;
+}
+void Delivery_endC3_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(125);
+        vTaskDelay(1500);
+        Pump_Close();
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
+    case 1:
+        Move_Forward_Position(0.15f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(35);
+        vTaskDelay(1500);
+        Pump_Close();
+        Solenoid_Open();
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.15f);
+        vTaskDelay(1500);
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        red_end_flag=1;
+        break;
+    }
+    finish_flag=1;
+}
+void Back_beginC3_StateFunc(void *data){
+    finish_flag=0;
+    cross_ready=0;
+    cross_flag = 0;
+    Motorangle(180.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Motorangle(90.0f);
+    vTaskDelay(2200);
+    while (gray_front[0] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    Move_Left_Position(0.3f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.4f);
+    vTaskDelay(2200);
+    niMotorangle(90.0f);
+    vTaskDelay(2200);
+    Move_Forward_Position(0.1f);
+    vTaskDelay(500);
+    while (gray_right[3] != 0)
+    {
+        LineTracking();
+        vTaskDelay(10);
+    }
+    Stop();
+    vTaskDelay(500);
+    if(delivery_count==2){
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.1f);
+        vTaskDelay(500);
+        while (gray_right[3] != 0)
+        {
+            LineTracking();
+            vTaskDelay(10);
+        }
+        Move_Forward_Position(0.1f);
+        vTaskDelay(500);
+        while (gray_right[3] != 0)
+        {
+            LineTracking();
+            vTaskDelay(10);
+        }
+        Stop();
+        vTaskDelay(500);
+        niMotorangle(90.0f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.8f);
+        vTaskDelay(3000);
+        red_end_flag=1;
+    }
+    finish_flag=1;
+}
+void Back_endC3_StateFunc(void *data){
+    finish_flag=0;
+    switch (delivery_count)
+    {
+    case 0:
+        Move_Left_Position(0.35f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(85);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.35f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 1:
+        Move_Left_Position(0.25f);
+        vTaskDelay(2200);
+        Move_Forward_Position(0.45f);
+        vTaskDelay(2200);
+        Yuntai_set_Angle(45);
+        vTaskDelay(1500);
+        Solenoid_Close();
+        Pump_Open();
+        Sigancatch();
+        vTaskDelay(2200);
+        Siganmove(-100.0f);
+        vTaskDelay(1500);
+        Yuntai_set_Angle(65);
+        vTaskDelay(1500);
+        Move_Backward_Position(0.45f);
+        vTaskDelay(2200);
+        Move_Right_Position(0.25f);
+        vTaskDelay(2200);
+        Motorangle(180.0f);
+        vTaskDelay(2200);
+        delivery_count++;
+        break;
+    case 2:
+        Pump_Close();
+        Solenoid_Open();
+        vTaskDelay(1500);
+        break;
+    }
+    finish_flag=1;
+}
+    
+
+
    
