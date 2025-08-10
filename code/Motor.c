@@ -36,7 +36,7 @@ float Get_Black_Line_Position()
   int   count = 0;
    if ((gray_front[0]==1)&&(gray_front[1]==1)&&(gray_front[2]==1)&&(gray_front[3]=1)&&(gray_front[4]==1)&&(gray_front[5]==1)&&(gray_front[6]==1)&&(gray_front[7]==1))
    {
-    return 3.5;
+    return 3.8f;
    }
   for (int i = 0; i < 8; i++)
   {
@@ -48,29 +48,31 @@ float Get_Black_Line_Position()
   }
   if ((gray_front[0]==0)&&(gray_front[1]==0)&&(gray_front[2]==0)&&(gray_front[3]==0)&&(gray_front[4]==0)&&(gray_front[5]==0)&&(gray_front[6]==0)&&(gray_front[7]==0))
   {
-    return 3.5;
+    return 3.8f;
   }
   if ((gray_front[0]==0)&&(gray_front[1]==0)&&(gray_front[2]==0)&&(gray_front[3]==0)&&(gray_front[5]==1)&&(gray_front[6]==1)&&(gray_front[7]==1))
   {
-    return 3.5;
+    return 3.8f;
   }
    if ((gray_front[0]==1)&&(gray_front[1]==1)&&(gray_front[2]==1)&&(gray_front[4]==0)&&(gray_front[5]==0)&&(gray_front[6]==0)&&(gray_front[7]==0))
   {
-    return 3.5;
+    return 3.8f;
   }
   float normalized_pos = (weight_sum / count + 4.0f) * 0.875f;
-  return (int)(normalized_pos + 0.5f); 
+  // return (int)(normalized_pos + 0.5f); 
+  return normalized_pos; 
 }
 void LineTracking()
+ {if ((gray_right[0]==1)&&(gray_right[1]==1)&&(gray_right[2]==1)&&(gray_right[3]==1)&&(gray_right[4]==1)&&(gray_right[5]==1)&&(gray_right[6]==1)&&(gray_right[7]==1))
  {
   float black_line_pos = Get_Black_Line_Position();
-  if (black_line_pos == 3.5)
+  if (black_line_pos == 3.8f)
   {
     Motor_Speed_control(0.3f, 0.3f, 0.3f, 0.3f);
   }
   
-  float base_speed = 0.3f; // 设定基准速度
-  float error = black_line_pos - 3.5f; 
+  float base_speed = 0.4f; // 设定基准速度
+  float error = black_line_pos - 3.8f; 
   float error_weight = 0.05f; 
   float Correction = error * error_weight; 
   float speed1 = base_speed + Correction;
@@ -78,7 +80,14 @@ void LineTracking()
   float speed3 = base_speed + Correction;
   float speed4 = base_speed - Correction;
   Motor_Speed_control(speed1, speed2, speed3, speed4);
+} 
+else
+{
+  Motor_Speed_control(0.35f, 0.35f, 0.35f, 0.35f);
 }
+
+}
+
 void Turn_Left()
 {
   
@@ -103,31 +112,31 @@ void Stop()
 }
 void Move_Forward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, 0.3f, target_pos);
-  set_speed_pos_target(&Motor3, 0.3f, target_pos);
-  set_speed_pos_target(&Motor4, 0.3f, target_pos);
-  set_speed_pos_target(&Motor1, 0.3f, target_pos);
+  set_speed_pos_target(&Motor2, 0.35f, target_pos);
+  set_speed_pos_target(&Motor3, 0.35f, target_pos);
+  set_speed_pos_target(&Motor4, 0.35f, target_pos);
+  set_speed_pos_target(&Motor1, 0.35f, target_pos);
 }
 void Move_Backward_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, -0.3f, target_pos);
-  set_speed_pos_target(&Motor3, -0.3f, target_pos);
-  set_speed_pos_target(&Motor4, -0.3f, target_pos);
-  set_speed_pos_target(&Motor1, -0.3f, target_pos);
+  set_speed_pos_target(&Motor2, -0.35f, target_pos);
+  set_speed_pos_target(&Motor3, -0.35f, target_pos);
+  set_speed_pos_target(&Motor4, -0.35f, target_pos);
+  set_speed_pos_target(&Motor1, -0.35f, target_pos);
 }
 void Move_Right_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, -0.3f, target_pos);
-  set_speed_pos_target(&Motor3, -0.3f, target_pos);
-  set_speed_pos_target(&Motor4, 0.3f, target_pos);
-  set_speed_pos_target(&Motor1, 0.3f, target_pos);
+  set_speed_pos_target(&Motor2, -0.35f, target_pos);
+  set_speed_pos_target(&Motor3, -0.35f, target_pos);
+  set_speed_pos_target(&Motor4, 0.35f, target_pos);
+  set_speed_pos_target(&Motor1, 0.35f, target_pos);
 }
 void Move_Left_Position(float target_pos)
 {
-  set_speed_pos_target(&Motor2, 0.3f, target_pos);
-  set_speed_pos_target(&Motor3, 0.3f, target_pos);
-  set_speed_pos_target(&Motor4, -0.3f, target_pos);
-  set_speed_pos_target(&Motor1, -0.3f, target_pos);
+  set_speed_pos_target(&Motor2, 0.35f, target_pos);
+  set_speed_pos_target(&Motor3, 0.35f, target_pos);
+  set_speed_pos_target(&Motor4, -0.35f, target_pos);
+  set_speed_pos_target(&Motor1, -0.35f, target_pos);
 }
 void Motorangle(float angle)
 {

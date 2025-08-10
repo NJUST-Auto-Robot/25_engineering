@@ -32,6 +32,7 @@
         "cmsis_os.h": "c",
         "maintask.h": "c",
         "freertos.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "timers.h": "c"
     }
 }

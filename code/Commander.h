@@ -11,4 +11,6 @@
 void motion_StateManager_Init(void);
 void motion_StateManager_Execute(void);
 extern int cross_flag;
+extern int cross_flag1;
+
 #endif
