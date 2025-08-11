@@ -38,6 +38,7 @@ void motion_process_task(void *pvParameters)
   while(1)
 	{
 	  motion_StateManager_Execute(); // 执行状态机
+
     vTaskDelay(50); // 延时50毫秒
 	}
 

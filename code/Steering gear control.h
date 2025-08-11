@@ -19,4 +19,5 @@ void Solenoid_Close(void);
 void Yuntai_set_Angle(uint8_t angle);
 void Siganmove(float height_mm);
 void Sigancatch(void);
+void move_to_zero(void);
 uint32_t calculate_pulses(float height);

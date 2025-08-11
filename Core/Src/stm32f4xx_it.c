@@ -73,12 +73,12 @@ extern TIM_HandleTypeDef htim4;
 #define SiganPulse_High() HAL_GPIO_WritePin(SiganPulse_GPIO_Port, SiganPulse, GPIO_PIN_SET) // 设置脉冲高电平
 #define SiganPulse_Low() HAL_GPIO_WritePin(SiganPulse_GPIO_Port, SiganPulse, GPIO_PIN_RESET) // 设置脉冲低电平
 extern uint32_t pulse_remaining;
+extern uint32_t Sigan_count;
 int Sigan_Motor_State = 0;
 int Sigan_Motor_Speed = 25;
 int Sigan_Motor_Temp_Count = 0;
 int SiganActive = 0; // 舵机初始化为不活动状态
   int SiganDir = 0; // 
-  int Siganbusy = 0; // 步进电机初始化为空闲状态
 int gray_state=0;
 int gray_count=0;
 int gray_delay_time=0;
@@ -252,12 +252,12 @@ if (SiganActive==1)
    
     SiganPulse_High(); 
     Sigan_Motor_State += delay_no_conflict(&Sigan_Motor_Temp_Count, Sigan_Motor_Speed);
+    Sigan_count+= SiganDir? 1 : -1;
     // pulse_remaining--;
    }
    else
    {
     SiganActive = 0;
-    Siganbusy = 0;
    }
     break;
    }

@@ -7,6 +7,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 int pulse_remaining = 0;
+int Sigan_count = 0;
 //以下用来控制气泵
 /*
 气泵开关
@@ -83,7 +84,7 @@ void Sigancatch(void)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(20);
+    Siganmove(28);
 }
 if (color_flag == YELLOWFLAG)
 {
@@ -94,7 +95,7 @@ if (color_flag == YELLOWFLAG)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(20);
+    Siganmove(28);
 }
 if (color_flag == BLUEFLAG)
 {
@@ -105,8 +106,25 @@ if (color_flag == BLUEFLAG)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(20);
+    Siganmove(28);
 }
+}
+void move_to_zero(void)
+ {
+    float current_position = Sigan_count; // 获取当前位置
+    float distance_to_zero = -current_position; // 计算回零所需的距离
 
-
+    if (distance_to_zero != 0) 
+    {
+        SiganActive = 1; // 设置舵机为活动状态
+        pulse_remaining = fabs(distance_to_zero); // 设置剩余脉冲数
+        if (distance_to_zero > 0) 
+        {
+            SiganDir = 1; // 设置方向为正转
+        } 
+        else 
+        {
+            SiganDir = 0; // 设置方向为反转
+        }
+    } 
 }

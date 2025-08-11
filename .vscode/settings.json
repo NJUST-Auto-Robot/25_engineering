@@ -33,6 +33,7 @@
         "maintask.h": "c",
         "freertos.h": "c",
         "task.h": "c",
-        "timers.h": "c"
+        "timers.h": "c",
+        "arm_math.h": "c"
     }
 }
