@@ -84,7 +84,7 @@ void Sigancatch(void)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(28);
+    Siganmove(30);
 }
 if (color_flag == YELLOWFLAG)
 {
@@ -95,7 +95,7 @@ if (color_flag == YELLOWFLAG)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(28);
+    Siganmove(30);
 }
 if (color_flag == BLUEFLAG)
 {
@@ -106,7 +106,7 @@ if (color_flag == BLUEFLAG)
         Siganmove(2);
         vTaskDelay(1);
     }
-    Siganmove(28);
+    Siganmove(32);
 }
 }
 void move_to_zero(void)
