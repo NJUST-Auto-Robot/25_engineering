@@ -68,7 +68,7 @@ void LineTracking()
   float black_line_pos = Get_Black_Line_Position();
   if (black_line_pos == 3.8f)
   {
-    Motor_Speed_control(0.3f, 0.3f, 0.3f, 0.3f);
+    Motor_Speed_control(0.4f, 0.4f, 0.4f, 0.4f);
   }
   
   float base_speed = 0.4f; // 设定基准速度
